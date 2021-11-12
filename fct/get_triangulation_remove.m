@@ -68,7 +68,7 @@ if make_plot==true
     view(2)
     xlabel('x')
     ylabel('y')
-    title('Triangulation / Comparison')
+    title('Triangulation / Removed Triangles')
 
     % plot the triangulation and indices (original axis)
     figure()
@@ -77,7 +77,7 @@ if make_plot==true
     grid('on')
     xlabel('x')
     ylabel('y')
-    title('Triangulation / Results')
+    title('Triangulation / Output')
 end
 
 end
