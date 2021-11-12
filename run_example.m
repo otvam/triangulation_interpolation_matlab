@@ -14,9 +14,12 @@ tolerance.scale_x = 2.0; % stretching factor in x direction for computing the an
 tolerance.scale_y = 1.0; % stretching factor in y direction for computing the angles
 
 % get the triangulation
-[tri_obj, idx] = get_triangulation(x, y, tolerance, true);
-x = x(idx);
-y = y(idx);
+[tri_obj, idx] = get_triangulation_create(x, y, tolerance, true);
+
+% remove manually some triangles
+[tri_obj, idx] = get_triangulation_remove(tri_obj, idx, 167, true);
+
+% if vertices have been removed, remove the corresponding data
 val = val(idx);
 
 %% plot triangulated data
