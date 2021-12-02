@@ -57,7 +57,7 @@ tri_raw_obj = delaunayTriangulation(x_scale.', y_scale.');
 
 % create final triangulation (original axis)
 x = x(idx);
-x = x(idx);
+y = y(idx);
 tri = tri_filter_obj.ConnectivityList;
 tri_obj = triangulation(tri, x.', y.');
 
