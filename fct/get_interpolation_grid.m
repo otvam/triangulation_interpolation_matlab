@@ -23,7 +23,6 @@ function val_mat = get_interpolation_grid(tri_obj, val, x_vec, y_vec)
 % check query
 validateattributes(x_vec, {'double'},{'row', 'nonempty', 'nonnan', 'real','finite'});
 validateattributes(y_vec, {'double'},{'row', 'nonempty', 'nonnan', 'real','finite'});
-assert((length(x_vec)==length(y_vec)), 'query vertice vectors have different lengths')
 
 % create the grid
 [x_mat, y_mat] = ndgrid(x_vec, y_vec);

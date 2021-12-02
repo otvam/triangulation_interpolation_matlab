@@ -37,10 +37,10 @@ title('Triangulated Data')
 
 % query points
 x_vec = linspace(-1.5, +1.5, 100);
-y_vec = linspace(-0.75, +0.75, 100);
+y_vec = linspace(-0.75, +0.75, 150);
 
 % interpolate (ndgrid format)
-val_mat = get_interpolation_grid(tri_obj, val, x_vec, x_vec);
+val_mat = get_interpolation_grid(tri_obj, val, x_vec, y_vec);
 
 %% plot interpolated data
 
