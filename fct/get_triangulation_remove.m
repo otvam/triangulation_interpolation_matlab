@@ -41,7 +41,11 @@ idx_old = setdiff(1:length(idx), idx_miss);
 idx_new = 1:(length(idx)-length(idx_miss));
 
 % shift the indices of the triangular matrix
-tri = changem(tri, idx_new, idx_old);
+tri_new = tri;
+for i=1:numel(idx_new)
+    tri_new(tri==idx_old(i)) = idx_new(i);
+end
+tri = tri_new;
 
 % remove the unused vertices
 x(idx_miss) = [];
