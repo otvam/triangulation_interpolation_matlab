@@ -1,23 +1,34 @@
 function run_example()
 
 close('all');
-addpath('fct')
+addpath(genpath('fct'))
 
-%% load loss data
+%% load dummy scattered data
 [x, y, val] = get_data();
 
 %% get the triangulation
 
+% stretching factor
+scale.scale_x = 2.0; % stretching factor in x direction for computing the triangulation
+scale.scale_y = 1.0; % stretching factor in y direction for computing the triangulation
+
 % tolerance for removing bad triangles
-tolerance.tol_angle = deg2rad(20); % angle tolerance for defined bad triangles
-tolerance.scale_x = 2.0; % stretching factor in x direction for computing the angles
-tolerance.scale_y = 1.0; % stretching factor in y direction for computing the angles
 
 % get the triangulation
-[tri_obj, idx] = get_triangulation_create(x, y, tolerance, true);
+tolerance.alpha = 0.2; % alpha radius (see alphaShape, 'Inf' for full triangulation)
+tolerance.hole_threshold = 0; % maximum interior holes (see alphaShape, '0' for desactivating)
+tolerance.region_threshold = 0; % maximum regions (see alphaShape, '0' for desactivating)
+[tri_obj, idx] = get_triangulation_create(x, y, scale, tolerance, true);
+
+% remove triangles with bad angles
+tolerance.type = 'angle'; % remove using the angles
+tolerance.tol_angle = deg2rad(20); % angle tolerance for defined bad triangles
+[tri_obj, idx] = get_triangulation_remove(tri_obj, idx, scale, tolerance, true);
 
 % remove manually some triangles
-[tri_obj, idx] = get_triangulation_remove(tri_obj, idx, 167, true);
+tolerance.type = 'idx'; % remove using the indices
+tolerance.idx_rm = 167; % indices of the bad triangles
+[tri_obj, idx] = get_triangulation_remove(tri_obj, idx, scale, tolerance, true);
 
 % if vertices have been removed, remove the corresponding data
 val = val(idx);
@@ -55,6 +66,12 @@ title('Interpolated Data')
 end
 
 function [x, y, val] = get_data()
+% Create dummy scattered dataset.
+%
+%    Returns:
+%        x - vertices for the x axis  (float / row vector)
+%        y - vertices for the y axis  (float / row vector)
+%        val - value of the vertices (float / row vector)
 
 % grid points
 x = -1.5:0.1:+1.5;

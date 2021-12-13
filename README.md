@@ -6,9 +6,13 @@
 ![status - maintained](https://img.shields.io/badge/status-maintained-green)
 
 The **MATLAB code** offers several functions for creating **2D triangulations** and **interpolating** data:
-* creating **triangulation** from **scattered data**, removing **ill-conditioned triangles**
-    * ill-conditioned triangles are on the exterior boundary
-    * ill-conditioned triangles are skinny (small angle)
+* creating **triangulation** from **scattered data**, using **alpha shapes**
+    * handle ill-conditioned triangles
+    * handle multiple (disjoint) domains
+    * handle holes in the domains
+* removing **ill-conditioned triangles**
+    * skinny triangles on the exterior boundary 
+    * triangles specified with a list of indices
 * computing the **area** and the **angle** of the triangles
 * **linear interpolation** on a specified triangulation
 * **plotting** triangulation geometry and data
