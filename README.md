@@ -26,6 +26,11 @@ The **MATLAB code** offers several functions for creating **2D triangulations** 
     <img src="readme_img/tri_geom.png" width="350">
 </p>
 
+<p float="middle">
+    <img src="readme_img/tri_number.png" width="350">
+    <img src="tri_output/tri_output.png" width="350">
+</p>
+
 ### Triangulated and Interpolated Data
 
 <p float="middle">
