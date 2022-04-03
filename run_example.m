@@ -8,6 +8,9 @@ addpath(genpath('fct'))
 
 %% get the triangulation
 
+% plot the triangulation
+make_plot = false;
+
 % stretching factor
 scale.scale_x = 2.0; % stretching factor in x direction for computing the triangulation
 scale.scale_y = 1.0; % stretching factor in y direction for computing the triangulation
@@ -18,17 +21,17 @@ scale.scale_y = 1.0; % stretching factor in y direction for computing the triang
 tolerance.alpha = 0.2; % alpha radius (see alphaShape, 'Inf' for full triangulation)
 tolerance.hole_threshold = 0; % maximum interior holes (see alphaShape, '0' for desactivating)
 tolerance.region_threshold = 0; % maximum regions (see alphaShape, '0' for desactivating)
-[tri_obj, idx] = get_triangulation_create(x, y, scale, tolerance, true);
+[tri_obj, idx] = get_triangulation_create(x, y, scale, tolerance, make_plot);
 
 % remove triangles with bad angles
 tolerance.type = 'angle'; % remove using the angles
 tolerance.tol_angle = deg2rad(30); % angle tolerance for defined bad triangles
-[tri_obj, idx] = get_triangulation_remove(tri_obj, idx, scale, tolerance, true);
+[tri_obj, idx] = get_triangulation_remove(tri_obj, idx, scale, tolerance, make_plot);
 
 % remove manually some triangles
 tolerance.type = 'idx'; % remove using the indices
 tolerance.idx_rm = 33; % indices of the bad triangles
-[tri_obj, idx] = get_triangulation_remove(tri_obj, idx, scale, tolerance, true);
+[tri_obj, idx] = get_triangulation_remove(tri_obj, idx, scale, tolerance, make_plot);
 
 % if vertices have been removed, remove the corresponding data
 val = val(idx);
@@ -55,8 +58,8 @@ title('Triangulated Data')
 %% interpolate
 
 % query points
-x_vec = linspace(-1.5, +1.5, 100);
-y_vec = linspace(-0.75, +0.75, 150);
+x_vec = linspace(-2.0, +2.0, 100);
+y_vec = linspace(-1.0, +1.0, 150);
 
 % interpolate (ndgrid format)
 val_mat = get_interpolation_grid(tri_obj, val, x_vec, y_vec);
