@@ -1,4 +1,4 @@
-function get_triangulation_plot(tri_raw_obj, tri_filter_obj, tri_obj, make_plot)
+function get_triangulation_plot(tri_raw_obj, tri_filter_obj, make_plot)
 % Plot the triangulation before/after removal of ill-conditioned triangles.
 %
 %    Parameters:
@@ -43,10 +43,12 @@ if make_plot==true
     % plot the triangulation and indices (original axis)
     figure()
     hold('on')
-    plot_triangulation_idx(tri_obj, 'g')
+    plot_triangulation_idx(tri_filter_obj, 'g')
     grid('on')
-    xlabel('x')
-    ylabel('y')
+    axis('equal')
+    view(2)
+    xlabel('x / scaled')
+    ylabel('y / scaled')
     title('Triangulation / Output')
 end
 

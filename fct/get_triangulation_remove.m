@@ -63,7 +63,7 @@ tri = tri_filter_obj.ConnectivityList;
 tri_obj = triangulation(tri, x.', y.');
 
 % plot the triangulation
-get_triangulation_plot(tri_raw_obj, tri_filter_obj, tri_obj, make_plot)
+get_triangulation_plot(tri_raw_obj, tri_filter_obj, make_plot)
 
 end
 

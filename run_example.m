@@ -22,21 +22,29 @@ tolerance.region_threshold = 0; % maximum regions (see alphaShape, '0' for desac
 
 % remove triangles with bad angles
 tolerance.type = 'angle'; % remove using the angles
-tolerance.tol_angle = deg2rad(20); % angle tolerance for defined bad triangles
+tolerance.tol_angle = deg2rad(30); % angle tolerance for defined bad triangles
 [tri_obj, idx] = get_triangulation_remove(tri_obj, idx, scale, tolerance, true);
 
 % remove manually some triangles
 tolerance.type = 'idx'; % remove using the indices
-tolerance.idx_rm = 167; % indices of the bad triangles
+tolerance.idx_rm = 33; % indices of the bad triangles
 [tri_obj, idx] = get_triangulation_remove(tri_obj, idx, scale, tolerance, true);
 
 % if vertices have been removed, remove the corresponding data
 val = val(idx);
 
+%% plot final triangulation
+figure()
+plot_triangulation_geom(tri_obj, 'g')
+grid('on')
+view(2)
+xlabel('x')
+ylabel('y')
+title('Triangulation')
+
 %% plot triangulated data
 
 figure()
-
 plot_triangulation_vertice(tri_obj, val)
 grid('on')
 xlabel('x')
@@ -74,17 +82,31 @@ function [x, y, val] = get_data()
 %        val - value of the vertices (float / row vector)
 
 % grid points
-x = -1.5:0.1:+1.5;
-y = -0.75:0.1:+0.75;
+x_1_vec = -10:+10;
+x_2_vec = -9.5:+9.5;
+y_vec = -5:+5;
+
+% assign honeycomb grid
+x = [];
+y = [];
+for i=y_vec
+   if mod(i,2)==0
+       x = [x x_1_vec];
+       y = [y i.*ones(1, length(x_1_vec))];
+   else
+       x = [x x_2_vec];
+       y = [y i.*ones(1, length(x_2_vec))];
+   end
+end
+
+% scale grid
+x = x.*0.2;
+y = y.*0.2;
 
 % get function value
-[x, y] = ndgrid(x, y);
-val = peaks(x, y);
-
-% flatten data
-x = x(:).';
-y = y(:).';
-val = val(:).';
+val =  3*(1-x).^2.*exp(-(x.^2) - (y+1).^2) ...
+   - 10*(x/5 - x.^3 - y.^5).*exp(-x.^2-y.^2) ...
+   - 1/3*exp(-(x+1).^2 - y.^2);
 
 % remove an edge
 idx = (x>=0)|(y>=0);
